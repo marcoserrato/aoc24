@@ -1,0 +1,19 @@
+#! /usr/bin/env fish
+
+# Parses arguments from argv catching d or days
+argparse 'd/day=' -- $argv
+
+if set -q _flag_day
+  echo "Opening Door $_flag_day!"
+else
+  echo "Provide a door number!"
+  return
+end
+
+set padded_day (string pad -w 2 -c 0 $_flag_day)
+set doordir "cmd/day_"(echo $padded_day)
+set fullp (echo $doordir)"/main.go"
+
+
+mkdir $doordir
+cat template.tmpl > $fullp
